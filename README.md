@@ -7,6 +7,8 @@ Handler相关:
 ## Android进阶
 针对Android进阶知识，按照优先级最主要的知识点主要包括：自定义View、性能优化
 ![](media/15933294417663.jpg)
+Frameword相关：
+[Zygote](framework/Zygote.md)
 ## Android热门技术
 除了基础日常使用的Android知识，我们还需时刻关注行业动态，与时俱进的学习新技术，如近些年来较为热门的Android新兴技术包括：Flutter、热修复、插件化等；
 同时，了解学习常用的开源库也十分重要，常用的开源库主要包括图片加载、网络请求、异步处理的开源库
@@ -15,6 +17,8 @@ Handler相关:
 Android是基于Java的，所以学习Java和Java虚拟机（JVM）十分重要
 学习Java不需要类似后端那么深入，我认为作为Android开发者，学习的内容包括：语言特性、基础使用、集合类和机制
 ![](media/15933295466937.jpg)
+HashMap:
+[Java：这是一份全面 & 详细的HashMap 1.7源码分析指南 by Carson_Ho](https://www.jianshu.com/p/e5c8a814c0ca)
 对于Java虚拟机（JVM），属于底层 & 原理性的内容，具体介绍 & 学习的内容包括
 ![](media/15933295722418.jpg)
 ## 计算机基础
