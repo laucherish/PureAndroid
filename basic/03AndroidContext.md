@@ -1,0 +1,10 @@
+# Android Context相关注意事项
+ - 1、Activity和Service以及Application的Context是不一样的,Activity继承自ContextThemeWraper.其他的继承自ContextWrapper。
+
+- 2、每一个Activity和Service以及Application的Context是一个新的ContextImpl对象。
+
+- 3、getApplication()用来获取Application实例的，但是这个方法只有在Activity和Service中才能调用的到。那也许在绝大多数情况下我们都是在Activity或者Servic中使用Application的，但是如果在一些其它的场景，比如BroadcastReceiver中也想获得Application的实例，这时就可以借助getApplicationContext()方法，getApplicationContext()比getApplication()方法的作用域会更广一些，任何一个Context的实例，只要调用getApplicationContext()方法都可以拿到我们的Application对象。
+
+- 4、创建对话框时不可以用Application的context，只能用Activity的context。
+
+- 5、Context的数量等于Activity的个数 + Service的个数 +1，这个1为Application。
