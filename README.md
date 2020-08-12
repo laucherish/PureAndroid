@@ -2,11 +2,15 @@
 ## Android基础
 针对Android基础和常用知识，按照优先级最主要的知识点主要包括：四大组件、布局使用、多线程、动画
 ![](media/15933292173446.jpg)
-Handler相关:
-[Android Handler：手把手带你深入分析 Handler机制源码 by Carson_Ho](https://www.jianshu.com/p/b4d745c7ff7a)
+Handler:
+[Android Handler：手把手带你深入分析 Handler机制源码](https://www.jianshu.com/p/b4d745c7ff7a)
 ## Android进阶
 针对Android进阶知识，按照优先级最主要的知识点主要包括：自定义View、性能优化
 ![](media/15933294417663.jpg)
+自定义View:
+[Android：一篇文章带你完全梳理自定义View工作流程！](https://www.jianshu.com/p/e79a55c141d6)
+事件分发：
+[Android事件分发机制详解：史上最全面、最易懂](https://www.jianshu.com/p/38015afcdb58)
 Frameword相关：
 [Zygote](framework/Zygote.md)
 ## Android热门技术
