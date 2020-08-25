@@ -4,6 +4,35 @@
 ![](media/15933292173446.jpg)
 Handler:
 [Android Handler：手把手带你深入分析 Handler机制源码](https://www.jianshu.com/p/b4d745c7ff7a)
+属性动画：
+[Android 属性动画：这是一篇全面 & 详细的 属性动画 总结&攻略](https://www.jianshu.com/p/2412d00a0ce4)
+基础知识（需要掌握）
+- 四大组件
+- 事件分发机制
+- 消息机制
+- binder
+- 线程与进程
+- 其他面试点
+知识点
+- [Activity全方位解析](/android/basis/activity.md)
+- [Service全方位解析](/android/basis/service.md)
+- [BroadcastReceiver全方位解析](/android/basis/broadcastreceiver.md)
+- [ContentProvider全方位解析](/android/basis/ContentProvider.md)
+- [Fragment详解](/android/basis/Fragment.md)
+- [Android消息机制](/android/basis/message-mechanism.md)
+- [Android事件分发机制](/android/basis/Event-Dispatch.md)
+- [AsyncTask详解](/android/basis/asynctask.md)
+- [HandlerThread详解](/android/basis/HandlerThread.md)
+- [IntentService详解](/android/basis/IntentService.md)
+- [LruCache原理解析](/android/basis/lrucache.md)
+- [Window、Activity、DecorView以及ViewRoot之间的关系](/android/basis/decorview.md)
+- [View测量、布局及绘制原理](/android/basis/custom_view.md)
+- [Android虚拟机及编译过程](/android/basis/dalvik-art.md)
+- [Android进程间通信方式](/android/basis/ipc.md)
+- [Android Bitmap压缩策略](/android/basis/bitmap.md)
+- [Android动画总结](/android/basis/animator.md)
+- [Android进程优先级](/android/basis/process-priority.md)
+- [Android Context详解](/android/basis/context.md)
 ## Android进阶
 针对Android进阶知识，按照优先级最主要的知识点主要包括：自定义View、性能优化
 ![](media/15933294417663.jpg)
