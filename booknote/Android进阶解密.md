@@ -77,4 +77,142 @@ AMS中取出粘性广播列表，遍历寻找匹配的粘性广播
 AMS首先验证广播是否合法
 ##### AMS到BroadcastReceiver的调用过程
 ![-w719](media/15990989237747.jpg)
-
+### ContentProvider的启动过程
+#### query方法到AMS的调用过程
+![-w661](media/15991134504761.jpg)
+AMS启动ContentProvider的过程
+![-w640](media/15991135083785.jpg)
+## 理解上下文Context
+### Context的关联类
+Context是一个抽象类，它的具体实现类为ContextImpl
+![-w427](media/15991138683766.jpg)
+Context的关联类采用了装饰模式，优点如下：
+- 使用者（比如Service）能够更方便地使用Context
+- 如果ContextImpl发生了变化，它的装饰类ContextWrapper不需要做任何修改
+- 通过组合而非继承的方式，拓展ContextImpl的功能，在运行时选择不同的装饰类，实现不同的功能
+### Application Context的创建过程
+![-w600](media/15991143567388.jpg)
+### Application Context的获取过程
+ContextImpl的getApplicationContext()
+### Activity的Context创建过程
+![-w667](media/15991151925648.jpg)
+在启动Activity的过程中创建ContextImpl，并赋值给ContextWrapper的成员变量mBase。Activity继承自ContextWrapper的子类ContextThemeWrapper，这样在Activity中就可以使用Context中定义的方法了。
+### Service的Context创建过程
+和Activity的类似
+## 理解ActivityManagerService
+### AMS家族
+#### Android7.0的AMS家族
+ActivityManager是关联类
+通过ActivityManagerNative（AMN）得到AMP
+ActivityManagerProxy（AMP）是AMS的代理类，也是AMN的内部类，实现了IActivityManager接口
+AMP和AMN运行在两个进程，AMP是Client端，AMN是Server端
+AMN实现了Binder类
+![-w712](media/15991235169727.jpg)
+![-w713](media/15991235631437.jpg)
+#### Android8.0的AMS家族
+Activity的启动过程会调用Instrumentation的execStartActivity方法
+![-w676](media/15991237594984.jpg)
+ActivityManager的getService方法
+![-w679](media/15991238864926.jpg)
+![-w582](media/15991241818171.jpg)
+### AMS的启动过程
+SystemServer中通过SystemServiceManager启动
+### AMS与应用程序进程
+启动应用程序时AMS会检查这个应用程序需要的进程是否存在
+如果不存在，AMS就会请求Zygote进程创建需要的应用程序的进程
+### AMS重要的数据结构
+#### 解析ActivityRecord
+内部记录了Activity的所有信息
+![-w710](media/15991248210883.jpg)
+#### 解析TaskRecord
+描述一个Activity任务栈
+![-w717](media/15991251295607.jpg)
+![-w711](media/15991251464106.jpg)
+#### 解析ActivityStack
+ActivityStack是一个管理类，用来管理系统所有Activity
+### Activity栈管理
+#### Activity任务栈模型
+![-w315](media/15991254538678.jpg)
+#### Launch Mode
+standerd
+singleTop  onNewIntent
+singleTask
+singleInstance  创建一个新栈
+#### Intent的FLAG
+如果和Launch Mode冲突，则以FLAG为准
+#### taskAffinity
+设置栈
+## 理解WindowManager
+### Window、WindowManager和WMS
+Window的实现类是PhoneWindow，对View进行管理
+WindowManager是一个接口类，继承自接口ViewManager，实现类是WindowManagerImpl
+WindowManager和WMS通过Binder进行跨进程通信
+![-w352](media/15991822643936.jpg)
+### WindowManager的关联类
+![-w634](media/15991823384441.jpg)
+Window是以View的形式存在
+WindowManagerGlobal 桥接模式
+![-w677](media/15991826829495.jpg)
+### Window的属性
+Type
+Flag
+SoftInputMode
+#### Window的类型和显示次序
+1.应用程序窗口
+Activity就是典型
+![-w569](media/15991828694246.jpg)
+Type值1~99，窗口层级
+2.子窗口
+不能独立存在，需要附着在其他窗口，比如PopupWindow
+![-w684](media/15991829507516.jpg)
+Type值1000~1999
+3.系统窗口
+Toast、输入法窗口、系统音量条窗口、系统错误窗口
+![-w680](media/15991830072313.jpg)
+Type值2000~2999
+4.窗口显示次序
+Type值越大，在越上面
+#### Window的标志
+![-w714](media/15991831067962.jpg)
+#### 软键盘相关模式
+![-w712](media/15991832217160.jpg)
+### Window的操作
+![-w337](media/15991839528068.jpg)
+#### 系统窗口的添加过程
+addView >>
+WindowManagerGlobal 维护3个列表
+ViewRootImpl功能：
+- View树的根并管理View树
+- 触发View的测量、布局和绘制
+- 输入事件的中转站
+- 管理Surface
+- 负责与WMS进行进程间通信
+![-w641](media/15991857126771.jpg)
+![-w709](media/15991858014804.jpg)
+#### Activity的添加过程
+ActivityThread的handleResumeActivity方法
+    wm.addView(decor, l);
+#### Window的更新过程
+updateViewLayout
+## 理解WindowManagerService
+### WMS的职责
+Android中的重要服务，WindowManager的管理者
+1.窗口管理
+2.窗口动画
+3.输入系统的中转站
+InputManagerService（IMS），对触摸事件进行处理，寻找最合适的窗口来处理
+4.Surface管理
+绘制
+![-w647](media/15992079256553.jpg)
+### WMS的创建过程
+SystemServer >> startOtherServices
+DisplayThread
+![-w455](media/15992094761264.jpg)
+### WMS的重要成员
+![-w675](media/15992096187370.jpg)
+### Window的添加过程（WMS处理部分）
+WMS>>addWindow
+### Window的删除过程
+## JNI原理
+### 系统源码中的JNI
+![-w149](media/15992106181525.jpg)
