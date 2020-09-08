@@ -216,3 +216,66 @@ WMS>>addWindow
 ## JNI原理
 ### 系统源码中的JNI
 ![-w149](media/15992106181525.jpg)
+## 10 Java虚拟机
+![-w550](media/15994443766751.jpg)
+![-w475](media/15994444014376.jpg)
+## 11 Dalvik和ART
+### Dalvik虚拟机
+#### DVM和JVM的区别
+1.基于的架构不同
+2.执行的字节码不同
+JVM执行顺序：.java>>.class>>.jar
+DVM执行顺序：.java>>.class>>.dex
+![-w428](media/15994451060388.jpg)
+3.DVM允许在有限的内存中同时运行多个进程
+Android中每一个应用程序都运行在一个DVM实例中，每一个DVM实例都运行在一个独立的进程空间中
+4.DVM由Zygote创建和初始化
+5.DVM有共享机制
+不同应用之间在运行时可以共享相同的类，拥有更高的效率
+6.DVM早期没有使用JIT编译器
+### ART虚拟机
+Android5.0以后默认采用ART
+#### ART与DVM的区别
+1.AOT（预编译），应用安装时就编译
+缺点：一是安装时间变长，二是存储空间变多
+2.DVM是32位，ART支持64位
+3.ART对垃圾回收机制进行改进
+4.运行时堆空间划分不同
+## 12 理解ClassLoader
+### Java中的ClassLoader
+#### 双亲委托模式
+![-w515](media/15994502066905.jpg)
+### Android中的ClassLoader
+加载dex文件
+1.BootClassLoader
+Java实现，系统预加载常用类
+2.DexClassLoader
+可以加载dex以及包含dex的压缩文件（apk和jar）
+3.PathClassLoader
+加载系统类和应用程序的类，通常用于安装的apk的dex文件
+![-w586](media/15994603242795.jpg)
+![-w569](media/15994614462384.jpg)
+#### BootClassLoader的创建
+Zygote进程>>ZygoteInit
+#### PathClassLoader
+Zygote进程启动SystemServer进程
+## 13 热修复原理
+![-w712](media/15994691081633.jpg)
+### 资源修复
+#### Instant Run概述
+![-w544](media/15994691698226.jpg)
+![-w674](media/15994692006786.jpg)
+- Hot Swap：不需要重启应用和Activity，修改一个现有方法中的代码
+- Warm Swap：不重启App，重启Activity，修改或删除一个现有资源文件
+- Cold Swap：App需要重启，但不需要重新安装。
+1.创建新的AssetManager，通过反射调用addAssetPath方法加载外部资源，这样新创建的AssetManager就含有了外部资源。
+2.将AssetManager类型的mAssets字段的引用全部替换为新创建的AssetManager。
+### 代码修复
+#### 类加载方案
+Dex分包
+放在dexElements的第一个元素
+![-w573](media/15994783164431.jpg)
+需要重启App后让ClassLoader重新加载新的类
+#### 底层替换方案
+替换ArtMethod，不需重启
+#### Instant Run 方案
