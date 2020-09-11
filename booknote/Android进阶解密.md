@@ -279,3 +279,83 @@ Dex分包
 #### 底层替换方案
 替换ArtMethod，不需重启
 #### Instant Run 方案
+## 14 Hook技术
+![-w327](media/15996144146101.jpg)
+![-w462](media/15996144273235.jpg)
+Hook像钩子，劫持，“欺上瞒下”
+![-w529](media/15996144872254.jpg)
+Hook点一般选择容易找到并且不易变化的对象，例如静态变量和单例
+### Hook技术分类
+### 代理模式
+### Hook startActivity 方法
+## 15 插件化原理
+### 动态加载技术
+动态加载可执行文件：so和dex相关文件
+![-w272](media/15996190033364.jpg)
+框架
+### 插件化的产生
+宿主、插件
+### Activity插件化
+Hook技术是主流
+![-w511](media/15996368450051.jpg)
+#### Hook IActivityManager方案实现
+1.使用占坑Activity通过AMS验证
+步骤1之前用一个在AndroidManifest.xml注册的Activity来占坑，通过AMS校验，步骤2之后用插件Activity替换占坑Activity。
+在AndroidManifest.xml中注册StubActivity，加载的插件为TargetActivity。startActivity（TargetActivity）
+采用动态代理，Hook IActivityManager，拦截startActivity方法，获取参数args中的第一个Intent对象，修改为stubIntent，将启动目标变为StubActivity
+2.还原插件Activity
+![-w415](media/15996373818100.jpg)
+Hook点为Handler的mCallback，自定义Callback
+![-w685](media/15996374738973.jpg)
+![-w683](media/15996378562171.jpg)
+Hook在performLaunchActivity之前，TargetActivity具有正常生命周期
+#### Hook Instrumentation方案实现
+Instrumentation>>execStartActivity()
+Instrumentation>>newActivity()
+### Service插件化
+### ContentProvider插件化
+### Broadcast插件化
+### 资源的插件化
+## 16 绘制优化
+### 绘制性能分析
+#### 绘制原理
+measure、layout、draw 运行在系统的应用框架层
+将数据渲染到屏幕上的是系统Native层的SurfaceFlinger服务
+CPU负责数据计算，GPU负责栅格化、渲染，通过图形驱动层进行连接
+帧数（FPS）
+![-w325](media/15997006508600.jpg)
+Android系统每隔16ms发出VSYNC（垂直同步）信号，触发对UI进行渲染
+![-w329](media/15997008413471.jpg)
+产生卡顿的原因主要有以下几点：
+- 布局Layout过去复杂，无法在16ms内完成渲染
+- 同一时间动画执行次数过多，导致CPU或GPU负载过重
+- View过度绘制，导致某些像素在同一帧时间内被绘制多次
+- 在UI线程中做了稍微耗时的操作
+- GC回收时暂停时间过长或者频繁的GC产生大量的暂停时间
+#### Profile GPU Rendering
+#### Systrace
+#### Traceview
+### 布局优化
+#### 布局优化工具
+Hierarchy Viewer
+## 17 内存优化
+### 避免可控的内存泄漏
+#### 内存泄漏的场景
+1.非静态内部类的静态实例
+2.多线程相关的匿名内部类/非静态内部类
+持有外部类实例的引用
+3.Handler内存泄漏
+MessageQueue持有Message持有Handler，如果Handler是非静态，则持有Activity
+4.未正确使用Context
+对于不是必须使用Activity的Context的情况（Dialog的Context必须使用Activity的Context），我们可以使用Application Context代替Activity的Context
+5.静态View
+静态View会持有Activity，应该在onDestroy中置为null
+6.WebView
+7.资源对象未关闭
+finally语句中关闭
+8.集合中对象没清理
+9.Bitmap对象
+尽快回收
+10.监听器未关闭
+合适的时候unregister
+### Memory Monitor
