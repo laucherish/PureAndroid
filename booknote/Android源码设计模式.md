@@ -41,6 +41,8 @@ PMS扫描系统中已安装的apk，解析apk包下的AndroidManifest
 PMS会存储所有的Activity、Service等信息
 启动Activity时，PMS会根据Intent查找出对应的组件列表
 # 工厂方法模式
+
 # 抽象工厂模式
+
 # 策略模式
 
