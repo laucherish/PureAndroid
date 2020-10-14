@@ -1,4 +1,5 @@
 # Android进阶解密
+
 ## Android系统启动
 ### init进程启动
 启动电源和系统>>引导程序BootLoader>>Linux内核>>init进程
