@@ -1,5 +1,5 @@
 ## OkHttp
-
+### 线程池
 ### 建造者模式
 Builder
 ### 责任链模式
@@ -25,3 +25,8 @@ Response getResponseWithInterceptorChain() throws IOException {
     return chain.proceed(originalRequest);
   }
 ```
+### 源码总结
+1.OSI七层模型，TCP/IP参考模型，HTTP格式
+2.主线流程
+3.线程池 ThreadPoolExecutor
+4.构建者设计模式，责任链模式
